@@ -7,7 +7,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 
-from vae import VAE
 from args import args
 from data import train_loader, test_loader
 
@@ -20,7 +19,7 @@ def logging(epoch, train_loss, test_loss):
 def generate_data(model, epoch, n_samples=1):
     fake_img = model.module.sample(n_samples=n_samples, device=ARGS.device)
     grid = torchvision.utils.make_grid(fake_img)
-    writer.add_image(ARGS.name, grid, epoch)
+    writer.add_image(ARGS.model, grid, epoch)
 
 
 def train(model, optimizer):
@@ -48,7 +47,7 @@ def val(model):
 
 
 def main():
-    model = nn.DataParallel(VAE(z_dim=ARGS.zdim).to(ARGS.device))
+    model = nn.DataParallel(vae(z_dim=ARGS.zdim).to(ARGS.device)) 
     optimizer = torch.optim.Adam(model.parameters())
 
     for epoch in range(ARGS.epochs):
@@ -71,6 +70,12 @@ if __name__ == "__main__":
     if ARGS.device is None:
         ARGS.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    writer = SummaryWriter(log_dir='logs/'+ARGS.name+datetime.now().strftime("/%d-%m-%Y/%H-%M-%S"))
+    if ARGS.model == 'vae':
+        from vae import VAE as vae
+    elif ARGS.model == 'conv_vae':
+        from conv_vae import ConvVAE as vae
+
+    writer = SummaryWriter(log_dir='logs/'+ARGS.model+datetime.now().strftime("/%d-%m-%Y/%H-%M-%S"))
+
 
     main()

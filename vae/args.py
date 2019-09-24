@@ -12,7 +12,8 @@ def args():
                         help='Device to run the experiment. \
                               Valid options: "cpu", "cuda".')
 
-    PARSER.add_argument('--name', default='VAE', type=str,
-                    help="Experiment's name.")
+    PARSER.add_argument('--model', default='vae', type=str,
+                    help="Model to be used. Valid options: \
+                        'vae', 'conv_vae'.")
 
     return PARSER.parse_args()
