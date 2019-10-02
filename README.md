@@ -22,7 +22,7 @@ _[Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)_
   <img src="readme_imgs/vae_pipeline.png" width="400" />
 </p>
 
-- [Paper](https://arxiv.org/abs/1312.6114), [code](vae/models/vae)
+- [Paper](https://arxiv.org/abs/1312.6114), [code](vae/models/vae.py)
 
 ### Conditional VAE
 _[Learning Structured Output Representation using Deep Conditional Generative Models
@@ -32,10 +32,10 @@ _[Learning Structured Output Representation using Deep Conditional Generative Mo
   <img src="readme_imgs/cvae_pipeline.png" width="400" />
 </p>
 
-- [Paper](https://papers.nips.cc/paper/5775-learning-structured-output-representation-using-deep-conditional-generative-models), [code](vae/models/cvae)
+- [Paper](https://papers.nips.cc/paper/5775-learning-structured-output-representation-using-deep-conditional-generative-models), [code](vae/models/cvae.py)
 
 
-## Results
+### Results
 <p align="center">
     <img src="readme_imgs/result_vae.png" width="100" />
     <img src="readme_imgs/result_cvae.png" width="100" />
