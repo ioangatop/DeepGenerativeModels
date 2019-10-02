@@ -28,20 +28,4 @@ def dataloader(root_name='data', batch_size=64, num_workers=0):
 
     return train_loader, test_loader
 
-
-def visual_data(dataloader):
-    dataiter = iter(dataloader)
-    images, _ = dataiter.next()
-    images = images.numpy()
-
-    # get one image from the batch
-    img = np.squeeze(images[0])
-
-    fig = plt.figure(figsize=(3, 3))
-    ax = fig.add_subplot(111)
-    ax.imshow(img, cmap='gray')
-    fig.savefig('fig.png', format='png')
-    plt.close(fig)
-
-
 train_loader, test_loader = dataloader()
