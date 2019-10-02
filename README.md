@@ -15,7 +15,7 @@ Lastly, I also attempt to analyzed both from theoretical and practical spectrum,
 
 A VAE is a latent variable model that leverages the flexibility of Neural Networks (NN) in order to learn/specify a latent variable model.
 
-#### Vanilla VAE
+### Vanilla VAE
 _[Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)_
 
 <p align="center">
@@ -24,7 +24,7 @@ _[Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)_
 
 - [Paper](https://arxiv.org/abs/1312.6114), [code](vae/models/vae)
 
-#### Conditional VAE
+### Conditional VAE
 _[Learning Structured Output Representation using Deep Conditional Generative Models
 ](https://papers.nips.cc/paper/5775-learning-structured-output-representation-using-deep-conditional-generative-models)_
 
