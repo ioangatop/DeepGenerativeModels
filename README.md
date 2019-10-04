@@ -52,7 +52,7 @@ _[Generative Adversarial Networks](https://arxiv.org/abs/1406.2661)_
 
 
 
-### Results
+## Results
 <p align="center">
     <img src="readme_imgs/result_vae.png" width="100" />
     <img src="readme_imgs/result_cvae.png" width="100" />
