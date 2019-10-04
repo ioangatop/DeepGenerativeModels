@@ -8,7 +8,7 @@
 
 ## Description
 
-__Variational Auto Encoders__ (VAEs), __Generative Adversarial Networks (GANs)__ ___Generative Normalizing Flows (NFs)___ and  are the most famous and powerful deep generative models. With this reposetory, I attempt to gather many deep generative model architectures, within a clean structured code enviroment.
+__Variational Auto Encoders__ (VAEs), __Generative Adversarial Networks (GANs)__ and ___Generative Normalizing Flows (NFs)___ and  are the most famous and powerful deep generative models. With this reposetory, I attempt to gather many deep generative model architectures, within a clean structured code enviroment.
 Lastly, I also attempt to analyzed both from theoretical and practical spectrum, with mathematical formulas and annimated pictures.
 
 ## [VAE](vae/)
