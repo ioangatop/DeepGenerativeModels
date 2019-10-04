@@ -7,8 +7,8 @@
 </p>
 
 ## Description
-__Variational Auto Encoders__ (VAEs) are one of the most powerful and mathematically beautiful deep generative models.
-With this reposetory, I attempt to gather the most popular and advanced VAEs architectures all to gether within a clean structured code enviroment.
+
+__Variational Auto Encoders__ (VAEs), __Generative Adversarial Networks (GANs)__ ___Generative Normalizing Flows (NFs)___ and  are the most famous and powerful deep generative models. With this reposetory, I attempt to gather many deep generative model architectures, within a clean structured code enviroment.
 Lastly, I also attempt to analyzed both from theoretical and practical spectrum, with mathematical formulas and annimated pictures.
 
 ## [VAE](vae/)
@@ -37,6 +37,9 @@ _[Learning Structured Output Representation using Deep Conditional Generative Mo
 
 
 ## [GAN](gan/)
+
+Generative Adversarial Networks (GAN) are a type of deep generative models. Similar to VAEs, GANs can generate images that mimick images from the dataset by sampling an encoding from a noise distribution. In constract to VAEs, in vanilla GANs there is no inference mechanism to determine an encoding or latent vector that corresponds to a given data point (or image).
+
 
 ### Vanilla GANs
 _[Generative Adversarial Networks](https://arxiv.org/abs/1406.2661)_
