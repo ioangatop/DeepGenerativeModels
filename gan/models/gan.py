@@ -8,17 +8,6 @@ import torch
 import torch.nn as nn
 
 
-# class Flatten(nn.Module):
-#     def forward(self, x):
-#         return x.view(x.size(0), -1)
-
-
-# class UnFlatten(nn.Module):
-#     def forward(self, x):
-#         return x.view(x.size(0), 1, 28, 28)
-
-
-
 class Generator(nn.Module):
     def __init__(self, latent_dim, dropout_prob):
         super(Generator, self).__init__()
@@ -37,30 +26,6 @@ class Generator(nn.Module):
             net.append(nn.Linear(hidden[i], hidden[i+1]))
         net.append(nn.Tanh())
         self.net = nn.Sequential(*net)
-
-    # def interpolate(generator):
-    #     # Interpolation steps
-    #     n = 7
-    #     # Sample two digits
-    #     z_1 = np.random.normal(-.7, .7, ARGS.latent_dim)
-    #     z_2 = np.random.normal(.7, .7, ARGS.latent_dim)
-
-    #     # Initialize the interpolation space
-    #     interpolation_space = np.linspace(z_1, z_2, n+2)
-
-    #     digits_list = []
-    #     for digit in interpolation_space:
-    #         z =  torch.from_numpy(digit).float().to(device) * torch.ones((ARGS.latent_dim)).to(device)
-    #         digits_list.append(z)
-
-    #     # Stack tensors
-    #     z = torch.stack(digits_list, dim=0).to(device)
-    #     # Generate images
-    #     fake_imgs = generator(z)
-    #     # Save generate images
-    #     save_image(fake_imgs.data.view(-1, 1, 28, 28),
-    #             'interpolate_digits.png', nrow=n+2, normalize=True)
-    #     print('\nProduced interpolation between two digits. Saved as: interpolate_digits.png\n')
 
     def forward(self, z):
         """ Forward pass: Generate images from z
