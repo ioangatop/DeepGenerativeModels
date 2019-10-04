@@ -35,6 +35,20 @@ _[Learning Structured Output Representation using Deep Conditional Generative Mo
 - [Paper](https://papers.nips.cc/paper/5775-learning-structured-output-representation-using-deep-conditional-generative-models), [code](vae/models/cvae.py)
 
 
+
+## [GAN](gan/)
+
+### Vanilla GANs
+_[Generative Adversarial Networks](https://arxiv.org/abs/1406.2661)_
+
+<p align="center">
+  <img src="readme_imgs/gan_pipeline.png" width="400" />
+</p>
+
+- [Paper](https://arxiv.org/abs/1406.2661), [code](gan/models/gan.py)
+
+
+
 ### Results
 <p align="center">
     <img src="readme_imgs/result_vae.png" width="100" />
@@ -45,7 +59,15 @@ _[Learning Structured Output Representation using Deep Conditional Generative Mo
 </p>
 
 
-All the results can be found the folder `vae/logs` with `tensorboard`:
+<p align="center">
+    <img src="readme_imgs/gan_training.gif" width="400" />
+</p>
+<p align="center">
+    Vanilla GAN training progress.
+</p>
+
+
+All the results can be found the folder `vae/logs` (or `gan/logs`) with `tensorboard`:
 ```
 tensorboard --logdir=vae/logs
 ```

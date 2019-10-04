@@ -12,7 +12,7 @@ from data import train_loader, test_loader
 
 
 def fix_random_seed(seed=0):
-    if seed is not None:``
+    if seed is not None:
         torch.manual_seed(seed)
         np.random.seed(seed)
         torch.backends.cudnn.deterministic = True
