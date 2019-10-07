@@ -1,10 +1,8 @@
-from datetime import datetime
 import numpy as np
+from datetime import datetime
 
 import torch
 import torchvision
-import torch.nn as nn
-import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 
 from args import args
@@ -22,7 +20,6 @@ def fix_random_seed(seed=0):
 def logging(epoch, train_loss, test_loss):
     writer.add_scalar('Loss/train', train_loss, epoch)
     writer.add_scalar('Loss/test', test_loss, epoch)
-
     print('Epoch [{:4d}/{:4d}] | Train loss: {:6.2f} | Validation loss: {:6.2f}'.format(
             epoch, args.epochs, train_loss, test_loss))
 
@@ -60,25 +57,18 @@ def val(model):
 def main():
     model = args.model
     optimizer = torch.optim.Adam(model.parameters())
-
     for epoch in range(1, args.epochs+1):
         train_loss = train(model, optimizer)
         test_loss = val(model)
-
         generate_data(model, epoch)
-
         logging(epoch, train_loss, test_loss)
 
 
 if __name__ == "__main__":
-    args = args()
-
     fix_random_seed(seed=args.seed)
     writer = SummaryWriter(log_dir='logs/' +
                            args.model.module.__class__.__name__ +
                            datetime.now().strftime("/%d-%m-%Y/%H-%M-%S")
                            )
-
     main()
-
     writer.close()

@@ -2,6 +2,7 @@ import argparse
 import torch
 import torch.nn as nn
 
+
 def print_(ARGS):
     print('\n'+64*'-')
     print('Training model: {}'.format(ARGS.model.module.__class__.__name__))
@@ -11,7 +12,8 @@ def print_(ARGS):
     print('Training on: {}'.format(str(ARGS.device)))
     print(64*'-'+'\n')
 
-def args():
+
+def get_args():
     PARSER = argparse.ArgumentParser()
 
     PARSER.add_argument('--epochs', default=40, type=int,
@@ -46,5 +48,9 @@ def args():
         quit()
 
     print_(ARGS)
-
     return ARGS
+
+args = get_args()
+
+if __name__ == "__main__":
+    pass

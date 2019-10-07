@@ -8,8 +8,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import numpy as np
-
 
 def one_hot_encode(x, n_labels):
     one_hot = torch.zeros((*x.shape, n_labels), dtype=torch.float).to(x.device)
