@@ -21,7 +21,7 @@ def logging(epoch, train_loss, test_loss):
     writer.add_scalar('Loss/train', train_loss, epoch)
     writer.add_scalar('Loss/test', test_loss, epoch)
     print('Epoch [{:4d}/{:4d}] | Train loss: {:6.2f} | Validation loss: {:6.2f}'.format(
-            epoch, args.epochs, train_loss, test_loss))
+        epoch, args.epochs, train_loss, test_loss))
 
 
 def generate_data(model, epoch, n_samples=9):
