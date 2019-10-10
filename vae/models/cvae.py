@@ -19,7 +19,6 @@ def one_hot_encode(x, n_labels):
 class Encoder(nn.Module):
     def __init__(self, hidden_dim=500, z_dim=20, n_labels=10):
         super().__init__()
-
         self.encoder_nn = nn.Sequential(
             nn.Linear(784 + n_labels, hidden_dim),
             nn.ReLU(),
@@ -29,9 +28,6 @@ class Encoder(nn.Module):
         )
 
     def forward(self, x):
-        """
-        Perform forward pass of encoder.
-        """
         mean, log_var = self.encoder_nn(x).chunk(2, dim=1)
         return mean, log_var
 
@@ -39,7 +35,6 @@ class Encoder(nn.Module):
 class Decoder(nn.Module):
     def __init__(self, hidden_dim=500, z_dim=20, n_labels=10):
         super().__init__()
-
         self.nn_decoder = nn.Sequential(
             nn.Linear(z_dim+n_labels, hidden_dim//2),
             nn.ReLU(),
@@ -50,16 +45,12 @@ class Decoder(nn.Module):
         )
 
     def forward(self, z):
-        """
-        Perform forward pass of encoder.
-        """
         return self.nn_decoder(z)
 
 
 class CVAE(nn.Module):
     def __init__(self, hidden_dim=500, z_dim=20, n_labels=10):
         super().__init__()
-
         self.z_dim = z_dim
         self.n_labels = n_labels
         self.encoder = Encoder(hidden_dim, z_dim, n_labels)
@@ -84,8 +75,7 @@ class CVAE(nn.Module):
 
     def forward(self, **kwargs):
         """
-        Given input, perform an encoding and decoding step and return the
-        negative average elbo for the given batch.
+        Returns: Negative average elbo for given batch.
         """
         x, c = kwargs['x'], kwargs['c']
         x = x.view(x.size(0), -1)

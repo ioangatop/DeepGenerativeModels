@@ -13,7 +13,7 @@ def print_(ARGS):
     print(64*'-'+'\n')
 
 
-def get_args():
+def parser():
     PARSER = argparse.ArgumentParser()
 
     PARSER.add_argument('--epochs', default=40, type=int,
@@ -25,6 +25,8 @@ def get_args():
                               Valid options: "cpu", "cuda".')
     PARSER.add_argument('--seed', default=None, type=int,
                         help='Fix random seed.')
+    PARSER.add_argument('--n_samples', type=int, default=9,
+                        help='The number of the generated images.')
     PARSER.add_argument('--model', default='cvae', type=str,
                         help="Model to be used. Valid options: \
                         'vae', 'conv_vae', 'cvae'.")
@@ -50,7 +52,7 @@ def get_args():
     print_(ARGS)
     return ARGS
 
-args = get_args()
+args = parser()
 
 if __name__ == "__main__":
     pass

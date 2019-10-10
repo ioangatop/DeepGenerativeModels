@@ -1,45 +1,25 @@
-import numpy as np
 from datetime import datetime
-
 import torch
-import torchvision
 from torch.utils.tensorboard import SummaryWriter
 
 from args import args
 from data import train_loader, test_loader
-
-
-def fix_random_seed(seed=0):
-    if seed is not None:
-        torch.manual_seed(seed)
-        np.random.seed(seed)
-        torch.backends.cudnn.deterministic = True
-        torch.backends.cudnn.benchmark = False
-
-
-def logging(epoch, train_loss, test_loss):
-    writer.add_scalar('Loss/train', train_loss, epoch)
-    writer.add_scalar('Loss/test', test_loss, epoch)
-    print('Epoch [{:4d}/{:4d}] | Train loss: {:6.2f} | Validation loss: {:6.2f}'.format(
-        epoch, args.epochs, train_loss, test_loss))
-
-
-def generate_data(model, epoch, n_samples=9):
-    fake_img = model.module.sample(n_samples=n_samples, device=args.device)
-    grid = torchvision.utils.make_grid(fake_img, nrow=int(n_samples**0.5))
-    writer.add_image(args.model.module.__class__.__name__, grid, epoch)
+from utils import fix_random_seed, logging, generate_data
 
 
 def train(model, optimizer):
     model.train()
     avg_loss = 0.0
-    for imgs, labels in train_loader:
+    for i, (imgs, labels) in enumerate(train_loader):
         imgs, labels = imgs.to(args.device), labels.to(args.device)
         optimizer.zero_grad()
         loss = model(x=imgs, c=labels)
         loss.backward()
         optimizer.step()
         avg_loss += loss.item()
+        print('{:6}/{:3d} | Loss: {:4.2f}'.format(
+            i+1, len(train_loader), loss.item()), end='\r')
+
     avg_loss /= len(train_loader)
     return avg_loss
 
@@ -57,11 +37,12 @@ def val(model):
 def main():
     model = args.model
     optimizer = torch.optim.Adam(model.parameters())
+    print("Training started.")
     for epoch in range(1, args.epochs+1):
         train_loss = train(model, optimizer)
         test_loss = val(model)
-        generate_data(model, epoch)
-        logging(epoch, train_loss, test_loss)
+        generate_data(model, epoch, writer)
+        logging(epoch, train_loss, test_loss, writer)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,6 @@ class UnFlatten(nn.Module):
 class Encoder(nn.Module):
     def __init__(self, h_dim=32, z_dim=2):
         super().__init__()
-
         self.encoder_nn = nn.Sequential(
             # i_dim x 28 x 28
             nn.Conv2d(1, h_dim, 3, stride=1, padding=1, bias=False),
@@ -36,18 +35,13 @@ class Encoder(nn.Module):
         )
 
     def forward(self, x):
-        """
-        Perform forward pass of encoder.
-        """
         mean, log_var = self.encoder_nn(x).chunk(2, dim=1)
-
         return mean, log_var
 
 
 class Decoder(nn.Module):
     def __init__(self, h_dim=32, z_dim=2):
         super().__init__()
-
         self.nn_decoder = nn.Sequential(
             UnFlatten(z_dim),
             # z_dim x 1 x 1
@@ -69,16 +63,12 @@ class Decoder(nn.Module):
         )
 
     def forward(self, x):
-        """
-        Perform forward pass of encoder.
-        """
         return self.nn_decoder(x)
 
 
 class ConvVAE(nn.Module):
     def __init__(self, hidden_dim=32, z_dim=2):
         super().__init__()
-
         self.z_dim = z_dim
         self.encoder = Encoder(hidden_dim, z_dim)
         self.decoder = Decoder(hidden_dim, z_dim)
@@ -98,8 +88,7 @@ class ConvVAE(nn.Module):
 
     def forward(self, **kwargs):
         """
-        Given input, perform an encoding and decoding step and return the
-        negative average elbo for the given batch.
+        Returns: Negative average elbo for given batch.
         """
         x = kwargs['x']
         z_mu, z_log_var = self.encoder(x)

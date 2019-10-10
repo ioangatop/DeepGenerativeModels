@@ -17,7 +17,7 @@ def print_(ARGS):
     print(64*'-'+'\n')
 
 
-def args():
+def parser():
     PARSER = argparse.ArgumentParser()
 
     # Training parameters
@@ -44,7 +44,7 @@ def args():
 
     PARSER.add_argument('--eval_mode', type=bool, default=True,
                         help='Evaluation mode On/Off when sampling.')
-    PARSER.add_argument('--n_samples', type=int, default=25,
+    PARSER.add_argument('--n_samples', type=int, default=9,
                         help='The number of the generated images.')
 
     PARSER.add_argument('--device', default=None, type=str,
@@ -71,3 +71,8 @@ def args():
     print_(ARGS)
 
     return ARGS
+
+args = parser()
+
+if __name__ == "__main__":
+    pass

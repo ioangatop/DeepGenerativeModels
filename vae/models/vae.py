@@ -22,7 +22,6 @@ class UnFlatten(nn.Module):
 class Encoder(nn.Module):
     def __init__(self, hidden_dim=500, z_dim=20):
         super().__init__()
-
         self.encoder_nn = nn.Sequential(
             Flatten(),
             nn.Linear(784, hidden_dim),
@@ -33,9 +32,6 @@ class Encoder(nn.Module):
         )
 
     def forward(self, x):
-        """
-        Perform forward pass of encoder.
-        """
         mean, log_var = self.encoder_nn(x).chunk(2, dim=1)
 
         return mean, log_var
@@ -44,7 +40,6 @@ class Encoder(nn.Module):
 class Decoder(nn.Module):
     def __init__(self, hidden_dim=500, z_dim=20):
         super().__init__()
-
         self.nn_decoder = nn.Sequential(
             nn.Linear(z_dim, hidden_dim//2),
             nn.ReLU(),
@@ -56,16 +51,12 @@ class Decoder(nn.Module):
         )
 
     def forward(self, x):
-        """
-        Perform forward pass of encoder.
-        """
         return self.nn_decoder(x)
 
 
 class VAE(nn.Module):
     def __init__(self, hidden_dim=500, z_dim=20):
         super().__init__()
-
         self.z_dim = z_dim
         self.encoder = Encoder(hidden_dim, z_dim)
         self.decoder = Decoder(hidden_dim, z_dim)
@@ -85,8 +76,7 @@ class VAE(nn.Module):
 
     def forward(self, **kwargs):
         """
-        Given input, perform an encoding and decoding step and return the
-        negative average elbo for the given batch.
+        Returns: Negative average elbo for given batch.
         """
         x = kwargs['x']
         z_mu, z_log_var = self.encoder(x)
