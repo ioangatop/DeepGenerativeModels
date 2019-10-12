@@ -17,9 +17,6 @@ def train(model, optimizer):
         loss.backward()
         optimizer.step()
         avg_loss += loss.item()
-        print('{:6}/{:3d} | Loss: {:4.2f}'.format(
-            i+1, len(train_loader), loss.item()), end='\r')
-
     avg_loss /= len(train_loader)
     return avg_loss
 
