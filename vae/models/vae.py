@@ -55,11 +55,12 @@ class Decoder(nn.Module):
 
 
 class VAE(nn.Module):
-    def __init__(self, hidden_dim=500, z_dim=20):
+    def __init__(self, hidden_dim=500, z_dim=20, recon_loss='MSE'):
         super().__init__()
         self.z_dim = z_dim
         self.encoder = Encoder(hidden_dim, z_dim)
         self.decoder = Decoder(hidden_dim, z_dim)
+        self.recon_loss = recon_loss
 
     def sample(self, n_samples=1, device='cpu'):
         z = torch.randn((n_samples, self.z_dim)).to(device)
@@ -69,10 +70,18 @@ class VAE(nn.Module):
         epsilon = torch.randn_like(z_mu)
         return z_mu + torch.exp(0.5*z_log_var)*epsilon
 
+    def reconstuction_loss(self, recon_x, x):
+        if self.recon_loss == 'MSE':
+            return F.mse_loss(recon_x, x, reduction='sum')
+        elif self.recon_loss == 'Binary':
+            return F.binary_cross_entropy(recon_x, x, reduction='sum')
+        else:
+            raise NotImplementedError
+
     def elbo(self, x, x_hat, z_mu, z_log_var):
         kl = - 0.5*torch.sum(1 + z_log_var - z_mu.pow(2) - z_log_var.exp())
-        bce = F.binary_cross_entropy(x_hat, x, reduction='sum')
-        return (kl + bce)/x.shape[0]
+        recon = self.reconstuction_loss(x_hat, x)
+        return (kl + recon)/x.shape[0]
 
     def forward(self, **kwargs):
         """
