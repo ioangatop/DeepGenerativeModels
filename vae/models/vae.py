@@ -70,18 +70,23 @@ class VAE(nn.Module):
         epsilon = torch.randn_like(z_mu)
         return z_mu + torch.exp(0.5*z_log_var)*epsilon
 
-    def reconstuction_loss(self, recon_x, x):
+    def reconstuction_loss(self, x, x_hat):
         if self.recon_loss == 'MSE':
-            return F.mse_loss(recon_x, x, reduction='sum')
+            return F.mse_loss(x_hat, x, reduction='sum')
         elif self.recon_loss == 'Binary':
-            return F.binary_cross_entropy(recon_x, x, reduction='sum')
+            return F.binary_cross_entropy(x_hat, x, reduction='sum')
         else:
             raise NotImplementedError
 
     def elbo(self, x, x_hat, z_mu, z_log_var):
         kl = - 0.5*torch.sum(1 + z_log_var - z_mu.pow(2) - z_log_var.exp())
-        recon = self.reconstuction_loss(x_hat, x)
+        recon = self.reconstuction_loss(x, x_hat)
         return (kl + recon)/x.shape[0]
+
+    def reconstruct(self, **kwargs):
+        z_mu, z_log_var = self.encoder(kwargs['x'])
+        z = self.reparameterize(z_mu, z_log_var)
+        return self.decoder(z)
 
     def forward(self, **kwargs):
         """

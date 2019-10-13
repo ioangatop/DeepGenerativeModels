@@ -25,7 +25,7 @@ def parser():
                               Valid options: "cpu", "cuda".')
     PARSER.add_argument('--seed', default=None, type=int,
                         help='Fix random seed.')
-    PARSER.add_argument('--n_samples', type=int, default=9,
+    PARSER.add_argument('--n_samples', type=int, default=64,
                         help='The number of the generated images.')
     PARSER.add_argument('--model', default='cvae', type=str,
                         help="Model to be used. Valid options: \

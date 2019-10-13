@@ -41,7 +41,7 @@ class Decoder(nn.Module):
             nn.Linear(hidden_dim//2, hidden_dim),
             nn.ReLU(),
             nn.Linear(hidden_dim, 784),
-            nn.Sigmoid()        
+            nn.Sigmoid()
         )
 
     def forward(self, z):
@@ -59,7 +59,7 @@ class CVAE(nn.Module):
 
     def sample(self, n_samples=10, device='cpu'):
         z = torch.randn((n_samples, self.z_dim)).to(device)
-        one_hot_c = one_hot_encode(torch.Tensor([i for i in range(n_samples)]), self.n_labels)
+        one_hot_c = one_hot_encode(torch.LongTensor(n_samples).random_(0, 10), self.n_labels)
         joint_z = torch.cat((z, one_hot_c), dim=-1)
         sample =  self.decoder(joint_z)
         sample = sample.view(sample.size(0), 1, 28, 28)
@@ -81,6 +81,16 @@ class CVAE(nn.Module):
         kl = - 0.5*torch.sum(1 + z_log_var - z_mu.pow(2) - z_log_var.exp())
         recon = self.reconstuction_loss(x_hat, x)
         return (kl + recon)/x.shape[0]
+
+    def reconstruct(self, **kwargs):
+        x, c = kwargs['x'], kwargs['c']
+        x = x.view(x.size(0), -1)
+        one_hot_c = one_hot_encode(c, self.n_labels)
+        joint_x = torch.cat((x, one_hot_c), dim=-1)
+        z_mu, z_log_var = self.encoder(joint_x)
+        z = self.reparameterize(z_mu, z_log_var)
+        joint_z = torch.cat((z, one_hot_c), dim=-1)
+        return self.decoder(joint_z).view(x.size(0), 1, 28, 28)
 
     def forward(self, **kwargs):
         """

@@ -4,16 +4,16 @@ from torch.utils.tensorboard import SummaryWriter
 
 from args import args
 from data import train_loader, test_loader
-from utils import fix_random_seed, logging, generate_data
+from utils import fix_random_seed, logging, generate_data, reconstruct_data
 
 
 def train(model, optimizer):
     model.train()
     avg_loss = 0.0
-    for i, (imgs, labels) in enumerate(train_loader):
+    for imgs, labels in train_loader:
         imgs, labels = imgs.to(args.device), labels.to(args.device)
         optimizer.zero_grad()
-        loss = model(x=imgs, c=labels)
+        loss = model.module.forward(x=imgs, c=labels)
         loss.backward()
         optimizer.step()
         avg_loss += loss.item()
@@ -25,7 +25,8 @@ def val(model):
     model.eval()
     avg_loss = 0.0
     for imgs, labels in test_loader:
-        loss = model(x=imgs, c=labels)
+        imgs, labels = imgs.to(args.device), labels.to(args.device)
+        loss = model.module.forward(x=imgs, c=labels)
         avg_loss += loss.item()
     avg_loss /= len(test_loader)
     return avg_loss
@@ -39,6 +40,7 @@ def main():
         train_loss = train(model, optimizer)
         test_loss = val(model)
         generate_data(model, epoch, writer)
+        reconstruct_data(model, test_loader, epoch, writer)
         logging(epoch, train_loss, test_loss, writer)
 
 
