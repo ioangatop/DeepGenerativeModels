@@ -2,7 +2,6 @@ import numpy as np
 import torch
 import torchvision
 
-
 from args import args
 
 
@@ -31,4 +30,7 @@ def reconstruct_data(model, data, epoch, writer):
     imgs, labels = next(iter(data))
     imgs_recon = model.module.reconstruct(x=imgs, c=labels)
     grid = torchvision.utils.make_grid(imgs_recon, nrow=int(imgs.shape[0]**0.5))
-    writer.add_image('Reconstruction', grid, epoch)
+    if epoch == 1:
+        writer.add_image('Reconstruction/Original Data',
+                         torchvision.utils.make_grid(imgs, nrow=int(imgs.shape[0]**0.5)))
+    writer.add_image('Reconstruction/Reconstructed Data', grid, epoch)
