@@ -25,16 +25,11 @@ def reconstruct_data(model, dataloader, epoch, writer):
 
 
 def plot_manifold(model, writer, epoch, n_manifold=19):
-    z1 = torch.from_numpy(norm.ppf(np.linspace(0.01, 0.99, n_manifold))).float().to(args.device)
-    z2 = torch.from_numpy(norm.ppf(np.linspace(0.01, 0.99, n_manifold))).float().to(args.device)
-
-    manifold_grid = torch.stack(torch.meshgrid(z1, z2))
-    manifold_grid = manifold_grid.permute(2, 1, 0).contiguous().view(-1, args.zdim)
-    manifold_imgs = model.module.decoder(manifold_grid).data.view(-1, 1, 28, 28)
-    writer.add_image('latent_space_visualization/manifold',
-                     torchvision.utils.make_grid(manifold_imgs,
-                                                 nrow=int(manifold_imgs.shape[0]**0.5)),
-                     epoch)
+    eps = norm.ppf(np.linspace(0.01, 0.99, n_manifold + 2)[1:-1])
+    z = torch.FloatTensor(np.dstack(np.meshgrid(eps, -eps)).reshape(-1, 2))
+    images = model.module.decoder(z).view(-1, 1, 28, 28)
+    manifold_grid = torchvision.utils.make_grid(images, nrow=int(images.shape[0]**0.5))
+    writer.add_image('latent_space_visualization/manifold', manifold_grid, epoch)
 
 
 def plot_scatter_plot(vis_data, labels, writer, epoch, c=10, dpi=100):
