@@ -33,7 +33,6 @@ class Encoder(nn.Module):
 
     def forward(self, x):
         mean, log_var = self.encoder_nn(x).chunk(2, dim=1)
-
         return mean, log_var
 
 

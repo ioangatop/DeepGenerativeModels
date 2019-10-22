@@ -4,7 +4,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 from args import args
 from data import train_loader, test_loader
-from utils import fix_random_seed, logging, generate_data, reconstruct_data
+from utils import fix_random_seed, logging
+from plotting import generate_data, reconstruct_data, project_latent_space
 
 
 def train(model, optimizer):
@@ -37,10 +38,13 @@ def main():
     optimizer = torch.optim.Adam(model.parameters())
     print("Training started.")
     for epoch in range(1, args.epochs+1):
+        # Train and Validate
         train_loss = train(model, optimizer)
         test_loss = val(model)
+        # Visualizations and logging
         generate_data(model, epoch, writer)
         reconstruct_data(model, test_loader, epoch, writer)
+        project_latent_space(model, test_loader, writer, epoch)
         logging(epoch, train_loss, test_loss, writer)
 
 

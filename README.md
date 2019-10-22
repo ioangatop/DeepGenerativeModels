@@ -69,6 +69,10 @@ _[Generative Adversarial Networks](https://arxiv.org/abs/1406.2661)_
     Vanilla GAN training progress.
 </p>
 
+## Logging
+<p align="center">
+    <img src="readme_imgs/vae_tensorboard.gif" width="600" />
+</p>
 
 All the results can be found the folder `vae/logs` (or `gan/logs`) with `tensorboard`:
 ```

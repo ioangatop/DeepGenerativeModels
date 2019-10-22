@@ -18,7 +18,7 @@ def parser():
 
     PARSER.add_argument('--epochs', default=40, type=int,
                         help='Number of training epochs.')
-    PARSER.add_argument('--zdim', default=20, type=int,
+    PARSER.add_argument('--zdim', default=2, type=int,
                         help='Dimensionality of latent space.')
     PARSER.add_argument('--device', default=None, type=str,
                         help='Device to run the experiment. \
@@ -27,7 +27,7 @@ def parser():
                         help='Fix random seed.')
     PARSER.add_argument('--n_samples', type=int, default=64,
                         help='The number of the generated images.')
-    PARSER.add_argument('--model', default='cvae', type=str,
+    PARSER.add_argument('--model', default='vae', type=str,
                         help="Model to be used. Valid options: \
                         'vae', 'conv_vae', 'cvae'.")
 
