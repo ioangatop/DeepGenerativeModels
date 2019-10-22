@@ -52,7 +52,6 @@ if __name__ == "__main__":
     fix_random_seed(seed=args.seed)
     writer = SummaryWriter(log_dir='logs/' +
                            args.model.module.__class__.__name__ +
-                           datetime.now().strftime("/%d-%m-%Y/%H-%M-%S")
-                           )
+                           datetime.now().strftime("/%d-%m-%Y/%H-%M-%S"))
     main()
     writer.close()
