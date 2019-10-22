@@ -79,7 +79,7 @@ All the results can be found the folder `vae/logs` (or `gan/logs`) with `tensorb
 tensorboard --logdir=vae/logs
 ```
 
-### Running
+## Running
 ```
 python vae/main.py --model="cvae"
 ```
