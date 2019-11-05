@@ -16,6 +16,7 @@ def generate_data(model, epoch, writer):
 def reconstruct_data(model, dataloader, epoch, writer):
     model.eval()
     imgs, labels = next(iter(dataloader))
+    imgs, labels = imgs.to(args.device), labels.to(args.device)
     imgs_recon = model.module.reconstruct(x=imgs, c=labels)
     grid = torchvision.utils.make_grid(imgs_recon, nrow=int(imgs.shape[0]**0.5))
     if epoch == 1:
@@ -26,7 +27,7 @@ def reconstruct_data(model, dataloader, epoch, writer):
 
 def plot_manifold(model, writer, epoch, n_manifold=19):
     eps = norm.ppf(np.linspace(0.01, 0.99, n_manifold + 2)[1:-1])
-    z = torch.FloatTensor(np.dstack(np.meshgrid(eps, -eps)).reshape(-1, 2))
+    z = torch.FloatTensor(np.dstack(np.meshgrid(eps, -eps)).reshape(-1, 2)).to(args.device)
     images = model.module.decoder(z).view(-1, 1, 28, 28)
     manifold_grid = torchvision.utils.make_grid(images, nrow=int(images.shape[0]**0.5))
     writer.add_image('latent_space_visualization/manifold', manifold_grid, epoch)
@@ -53,6 +54,7 @@ def project_latent_space(model, dataloader, writer, epoch):
     # Get data
     latent_emb = None
     for imgs, label in dataloader:
+        imgs, label = imgs.to(args.device), label.to(args.device)
         z = model.module.encoder.forward(imgs)[0]
         if latent_emb is None:
             latent_emb = z.detach()
@@ -61,7 +63,7 @@ def project_latent_space(model, dataloader, writer, epoch):
             latent_emb = torch.cat([latent_emb, z.detach()], dim=0)
             labels = torch.cat([labels, label], dim=0)
 
-    vis_data, labels = latent_emb.numpy(), labels.numpy()
+    vis_data, labels = latent_emb.cpu().numpy(), labels.cpu().numpy()
 
     # Plot
     plot_scatter_plot(vis_data, labels, writer, epoch)
