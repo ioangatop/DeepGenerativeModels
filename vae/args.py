@@ -9,6 +9,7 @@ def print_(ARGS):
     print('Dataset: {}'.format(ARGS.data))
     print('Training epochs: {}'.format(ARGS.epochs))
     print('Dimensionality of latent space: {}'.format(ARGS.zdim))
+    print('Batch size: {}'.format(ARGS.batch_size))
     print('Training on: {}'.format(str(ARGS.device)))
     print(64*'-'+'\n')
 
@@ -16,16 +17,19 @@ def print_(ARGS):
 def parser():
     PARSER = argparse.ArgumentParser()
 
-    PARSER.add_argument('--epochs', default=40, type=int,
-                        help='Number of training epochs.')
-    PARSER.add_argument('--zdim', default=2, type=int,
-                        help='Dimensionality of latent space.')
     PARSER.add_argument('--data', default='MNIST', type=str,
                         help="Data to be used. Valid options: \
                         'MNIST', 'CIFAR10', 'ImageNet'.")
     PARSER.add_argument('--model', default='vae', type=str,
                         help="Model to be used. Valid options: \
                         'vae', 'gated_vae', 'cvae'.")
+
+    PARSER.add_argument('--epochs', default=40, type=int,
+                        help='Number of training epochs.')
+    PARSER.add_argument('--zdim', default=2, type=int,
+                        help='Dimensionality of latent space.')
+    PARSER.add_argument('--batch_size', default=64, type=int,
+                        help='Batch size.')
 
     PARSER.add_argument('--n_samples', type=int, default=64,
                         help='The number of the generated images.')
@@ -45,7 +49,7 @@ def parser():
         ARGS.model = nn.DataParallel(VAE(z_dim=ARGS.zdim).to(ARGS.device))
     elif ARGS.model == 'gated_vae':
         from models.gated_conv2d_vae import GatedVAE
-        ARGS.model = nn.DataParallel(GatedVAE(z_dim=ARGS.zdim).to(ARGS.device))
+        ARGS.model = nn.DataParallel(GatedVAE(n_chanels=1, batch_size=ARGS.batch_size, z_dim=ARGS.zdim).to(ARGS.device))
     elif ARGS.model == 'cvae':
         from models.cvae import CVAE
         ARGS.model = nn.DataParallel(CVAE(z_dim=ARGS.zdim, n_labels=10).to(ARGS.device))

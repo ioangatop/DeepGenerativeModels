@@ -65,11 +65,11 @@ class Decoder(nn.Module):
 
 
 class GatedVAE(nn.Module):
-    def __init__(self, n_chanels=1, z_dim=20, recon_loss='MSE'):
+    def __init__(self, n_chanels=1, batch_size=256, z_dim=20, recon_loss='MSE'):
         super().__init__()
         self.z_dim = z_dim
-        self.encoder = Encoder(n_chanels, z_dim)
-        self.decoder = Decoder(n_chanels, z_dim)
+        self.encoder = Encoder(n_chanels, batch_size, z_dim)
+        self.decoder = Decoder(n_chanels, batch_size, z_dim)
         self.recon_loss = recon_loss
 
     def sample(self, n_samples=1, device='cpu'):
