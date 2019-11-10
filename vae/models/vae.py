@@ -8,15 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
-class Flatten(nn.Module):
-    def forward(self, x):
-        return x.view(x.size(0), -1)
-
-
-class UnFlatten(nn.Module):
-    def forward(self, x):
-        return x.view(x.size(0), 1, 28, 28)
+from .nn import Flatten, UnFlatten
 
 
 class Encoder(nn.Module):
