@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from nn import GatedConv2d, GatedConvTranspose2d
+from .nn import GatedConv2d, GatedConvTranspose2d
 
 class Encoder(nn.Module):
     def __init__(self, n_chanels=1, batch_size=256, z_dim=20):

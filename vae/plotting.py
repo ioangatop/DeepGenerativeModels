@@ -28,7 +28,7 @@ def reconstruct_data(model, dataloader, epoch, writer):
 def plot_manifold(model, writer, epoch, n_manifold=19):
     eps = norm.ppf(np.linspace(0.01, 0.99, n_manifold + 2)[1:-1])
     z = torch.FloatTensor(np.dstack(np.meshgrid(eps, -eps)).reshape(-1, 2)).to(args.device)
-    images = model.module.decoder(z).view(-1, 1, 28, 28)
+    images = model.module.decoder(z).view(-1, 1, 32, 32)
     manifold_grid = torchvision.utils.make_grid(images, nrow=int(images.shape[0]**0.5))
     writer.add_image('latent_space_visualization/manifold', manifold_grid, epoch)
 

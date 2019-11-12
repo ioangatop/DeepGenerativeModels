@@ -4,7 +4,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 from args import args
 from data import train_loader, test_loader
-from utils import fix_random_seed, logging
+from utils import fix_random_seed, logging, load_model, get_data_shape
 from plotting import generate_data, reconstruct_data, project_latent_space
 
 
@@ -34,7 +34,8 @@ def val(model):
 
 
 def main():
-    model = args.model
+    data_dim = get_data_shape(train_loader)
+    model = load_model(args.model, data_dim)
     optimizer = torch.optim.Adam(model.parameters())
     print("Training started.")
     for epoch in range(1, args.epochs+1):
@@ -51,7 +52,7 @@ def main():
 if __name__ == "__main__":
     fix_random_seed(seed=args.seed)
     writer = SummaryWriter(log_dir='logs/' +
-                           args.model.module.__class__.__name__ +
+                           args.model +
                            datetime.now().strftime("/%d-%m-%Y/%H-%M-%S"))
     main()
     writer.close()

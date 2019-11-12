@@ -11,7 +11,30 @@ class UnFlatten(nn.Module):
         return x.view(x.size(0), 1, 28, 28)
 
 
+# class UnFlattenConv2D(nn.Module):
+#     def __init__(self, unflatten_size):
+#         super().__init__()
+#         self.unflatten_size = unflatten_size
+
+#     def forward(self, x):
+#         return x.view(x.size(0), self.unflatten_size, 1, 1)
+
+
+class UnFlattenConv2D(nn.Module):
+    def __init__(self, unflatten_size):
+        super().__init__()
+        self.c = unflatten_size[0]
+        self.h = unflatten_size[1]
+        self.w = unflatten_size[2]
+
+    def forward(self, x):
+        return x.view(x.size(0), self.c, self.h, self.w)
+
+
 class GatedConv2d(nn.Module):
+    """
+    https://arxiv.org/pdf/1612.08083.pdf
+    """
     def __init__(self, input_channels, output_channels, kernel_size, stride, padding, dilation=1, activation=None):
         super(GatedConv2d, self).__init__()
 
