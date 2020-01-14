@@ -1,0 +1,7 @@
+{
+    "dataset": "MNIST",
+    "prior": "mog",
+    "z_dim": 2,
+    "batch_size": 20,
+    "reconstraction_loss": "mse_loss"
+}

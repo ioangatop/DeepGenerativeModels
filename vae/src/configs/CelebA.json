@@ -1,0 +1,8 @@
+{
+    "dataset": "CelebA",
+    "img_resize": 32,
+    "prior": "mog",
+    "z_dim": 32,
+    "batch_size": 16,
+    "reconstraction_loss": "discretized_logistic_loss"
+}
